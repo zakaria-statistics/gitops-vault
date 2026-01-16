@@ -2,11 +2,7 @@
 # Bitnami Kafka Helm chart values
 
 kafka:
-  # Use Bitnami from Quay.io (alternative registry)
-  image:
-    registry: quay.io
-    repository: bitnami/kafka
-    tag: 3.7
+  # Let chart use its default image
 
   # Single replica for dev/learning
   controller:
