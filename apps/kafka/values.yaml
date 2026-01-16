@@ -2,6 +2,12 @@
 # Bitnami Kafka Helm chart values
 
 kafka:
+  # Use specific available image
+  image:
+    registry: docker.io
+    repository: bitnami/kafka
+    tag: 3.7.0-debian-12-r2
+
   # Single replica for dev/learning
   controller:
     replicaCount: 1
@@ -18,9 +24,9 @@ kafka:
 
   # Broker settings (KRaft mode - no ZooKeeper needed)
   broker:
-    replicaCount: 0  # Using combined mode (controller acts as broker)
+    replicaCount: 0  # Using combined mode
 
-  # Listeners - plaintext for learning (no SSL complexity)
+  # Listeners
   listeners:
     client:
       protocol: PLAINTEXT
@@ -30,29 +36,33 @@ kafka:
     interbroker:
       protocol: PLAINTEXT
 
-  # Service configuration
+  # Service - LoadBalancer for external access
   service:
-    type: ClusterIP
+    type: LoadBalancer
     ports:
       client: 9092
 
-  # External access (optional - enable if needed)
-  externalAccess:
-    enabled: false
-
-  # Metrics for Prometheus scraping
+  # Metrics for Prometheus
   metrics:
     kafka:
       enabled: true
     jmx:
       enabled: false
 
-  # Log retention
-  logRetentionHours: 168  # 7 days
-
-  # Auto-create topics
+  # Settings
+  logRetentionHours: 168
   autoCreateTopicsEnable: true
 
-  # Pod annotations
   podAnnotations:
     gitops-managed: "true"
+
+# Kafka UI configuration
+kafka-ui:
+  envs:
+    config:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+
+  service:
+    type: LoadBalancer
+    port: 80
