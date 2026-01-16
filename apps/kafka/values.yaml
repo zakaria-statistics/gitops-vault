@@ -1,0 +1,58 @@
+# Kafka configuration for learning environment
+# Bitnami Kafka Helm chart values
+
+kafka:
+  # Single replica for dev/learning
+  controller:
+    replicaCount: 1
+    resources:
+      requests:
+        cpu: 250m
+        memory: 512Mi
+      limits:
+        cpu: 500m
+        memory: 1Gi
+    persistence:
+      enabled: true
+      size: 8Gi
+
+  # Broker settings (KRaft mode - no ZooKeeper needed)
+  broker:
+    replicaCount: 0  # Using combined mode (controller acts as broker)
+
+  # Listeners - plaintext for learning (no SSL complexity)
+  listeners:
+    client:
+      protocol: PLAINTEXT
+      containerPort: 9092
+    controller:
+      protocol: PLAINTEXT
+    interbroker:
+      protocol: PLAINTEXT
+
+  # Service configuration
+  service:
+    type: ClusterIP
+    ports:
+      client: 9092
+
+  # External access (optional - enable if needed)
+  externalAccess:
+    enabled: false
+
+  # Metrics for Prometheus scraping
+  metrics:
+    kafka:
+      enabled: true
+    jmx:
+      enabled: false
+
+  # Log retention
+  logRetentionHours: 168  # 7 days
+
+  # Auto-create topics
+  autoCreateTopicsEnable: true
+
+  # Pod annotations
+  podAnnotations:
+    gitops-managed: "true"

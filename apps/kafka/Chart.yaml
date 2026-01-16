@@ -1,0 +1,13 @@
+# Umbrella Chart for Apache Kafka
+# Wraps Bitnami Kafka chart with custom values
+apiVersion: v2
+name: kafka
+description: Apache Kafka deployment via GitOps
+type: application
+version: 1.0.0
+appVersion: "3.6.0"
+
+dependencies:
+  - name: kafka
+    version: 31.0.0
+    repository: https://charts.bitnami.com/bitnami
