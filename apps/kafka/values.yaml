@@ -2,9 +2,9 @@
 # Bitnami Kafka Helm chart values
 
 kafka:
-  # Specific image tag
+  # Specific image tag - 3.6.1 tags seem missing, trying 3.7.0
   image:
-    tag: 3.6.1-debian-12-r14
+    tag: 3.7.0
 
   # Single replica for dev/learning
   controller:
