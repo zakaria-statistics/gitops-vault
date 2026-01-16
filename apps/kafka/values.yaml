@@ -4,7 +4,7 @@
 kafka:
   # Specific image tag
   image:
-    tag: 3.6.1
+    tag: 3.6.1-debian-12-r14
 
   # Single replica for dev/learning
   controller:
