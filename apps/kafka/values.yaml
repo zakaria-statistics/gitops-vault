@@ -46,6 +46,10 @@ kafka:
   metrics:
     kafka:
       enabled: true
+      image:
+        registry: docker.io
+        repository: danielqsj/kafka-exporter
+        tag: v1.7.0
     jmx:
       enabled: false
 
