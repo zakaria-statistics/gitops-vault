@@ -1,0 +1,44 @@
+# ArgoCD Application - Points to YOUR GitHub repo
+#
+# BEFORE APPLYING: Update repoURL with your GitHub repo!
+#
+# Apply: kubectl apply -f argocd-app.yaml
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vault
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+
+  source:
+    # TODO: Replace with your GitHub repo URL
+    repoURL: https://github.com/zakaria-statistics/gitops-vault.git
+    targetRevision: main
+    path: apps/vault
+
+    helm:
+      # Tell ArgoCD to use Helm for this path
+      valueFiles:
+        - values.yaml
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: vault
+
+  syncPolicy:
+    automated:
+      prune: true      # Delete resources removed from Git
+      selfHeal: true   # Fix manual changes (drift)
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+    retry:
+      limit: 5
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m

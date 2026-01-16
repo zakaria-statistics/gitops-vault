@@ -1,0 +1,35 @@
+# Custom values for Vault deployment
+# These override the upstream chart defaults
+
+vault:
+  server:
+    # Dev mode - single instance, in-memory storage
+    # WARNING: Data lost on restart - for learning only!
+    dev:
+      enabled: true
+      devRootToken: "root"
+
+    resources:
+      requests:
+        memory: 256Mi
+        cpu: 250m
+      limits:
+        memory: 512Mi
+        cpu: 500m
+
+    standalone:
+      enabled: false
+
+    service:
+      enabled: true
+      type: LoadBalancer
+      port: 8200
+
+  # Disable injector for simplicity
+  injector:
+    enabled: false
+
+  # Enable UI
+  ui:
+    enabled: true
+    serviceType: ClusterIP
