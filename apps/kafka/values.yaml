@@ -2,7 +2,9 @@
 # Bitnami Kafka Helm chart values
 
 kafka:
-  # Let chart use its default image
+  # Specific image tag
+  image:
+    tag: 3.6.1
 
   # Single replica for dev/learning
   controller:
