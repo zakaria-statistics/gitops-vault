@@ -17,7 +17,7 @@ spec:
   source:
     # TODO: Replace with your GitHub repo URL
     repoURL: https://github.com/zakaria-statistics/gitops-vault.git
-    targetRevision: main
+    targetRevision: master
     path: apps/vault
 
     helm:
