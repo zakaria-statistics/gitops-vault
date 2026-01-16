@@ -1,13 +1,51 @@
 # Custom values for Vault deployment
 # These override the upstream chart defaults
+# Last updated: GitOps sync test
 
 vault:
+  # Global settings
+  global:
+    enabled: true
+    tlsDisable: true
+
   server:
+    # Annotations - visible change for sync demo
+    annotations:
+      gitops-managed: "true"
+      last-sync: "2026-01-16"
+      environment: "learning"
     # Dev mode - single instance, in-memory storage
     # WARNING: Data lost on restart - for learning only!
     dev:
       enabled: true
       devRootToken: "root"
+
+    # Production mode - HA cluster, persistent storage
+    # For production, disable dev mode and configure storage
+    # For example, with integrated storage:
+    #
+    #   standalone:
+    #     enabled: false
+    #   ha:
+    #     enabled: true
+    #     replicas: 3
+    #     config: |
+    #       storage "raft" {
+    #         path = "/vault/data"
+    #       }
+    #       listener "tcp" {
+    #         address = "0.0.0.0:8200"
+    #         tls_disable = "true"
+    #       }
+    #       api_addr = "http://{{ .Release.Name }}-vault-internal:8200"
+    #       cluster_addr = "http://{{ .Release.Name }}-vault-internal:8201"
+    #
+    #   dataStorage:
+    #     enabled: true
+    #     size: 10Gi
+    #     mountPath: "/vault/data"
+    #
+    
 
     resources:
       requests:
@@ -33,3 +71,9 @@ vault:
   ui:
     enabled: true
     serviceType: ClusterIP
+    annotations:
+      gitops-managed: "true"
+
+  # Server extra labels - visible in kubectl get pods --show-labels
+  serverTelemetry:
+    prometheusOperator: false
