@@ -2,9 +2,11 @@
 # Bitnami Kafka Helm chart values
 
 kafka:
-  # Specific image tag - specific versions are failing to pull, using latest for dev/learning
+  # Specific image tag - using bitnamilegacy as bitnami/kafka main repo is missing versions
   image:
-    tag: latest
+    registry: docker.io
+    repository: bitnamilegacy/kafka
+    tag: 3.7.1-debian-12-r11
 
   # Single replica for dev/learning
   controller:
