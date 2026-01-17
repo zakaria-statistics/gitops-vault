@@ -45,11 +45,14 @@ kafka:
   # Metrics for Prometheus
   metrics:
     kafka:
-      enabled: false
+      enabled: true
       image:
         registry: docker.io
         repository: danielqsj/kafka-exporter
         tag: v1.7.0
+      # Override default command which requires bash
+      command: ["/bin/kafka_exporter"]
+      # Ensure args are passed correctly if needed, but chart usually appends them
     jmx:
       enabled: false
 
