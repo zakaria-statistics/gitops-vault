@@ -50,9 +50,11 @@ kafka:
         registry: docker.io
         repository: danielqsj/kafka-exporter
         tag: v1.7.0
-      # Override default command which requires bash
+      # Override default command and args (chart default uses bash -ce which this image lacks)
       command: ["/bin/kafka_exporter"]
-      # Ensure args are passed correctly if needed, but chart usually appends them
+      args:
+        - --kafka.server=kafka-controller-0.kafka-controller-headless.kafka.svc.cluster.local:9092
+        - --web.listen-address=:9308
     jmx:
       enabled: false
 
