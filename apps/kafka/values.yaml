@@ -45,7 +45,7 @@ kafka:
   # Metrics for Prometheus
   metrics:
     kafka:
-      enabled: true
+      enabled: false
       image:
         registry: docker.io
         repository: danielqsj/kafka-exporter
